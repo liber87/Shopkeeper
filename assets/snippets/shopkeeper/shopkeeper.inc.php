@@ -52,6 +52,7 @@ $shkconf['stuffCont'] = isset($stuffCont) && preg_match('/\./',$stuffCont)==true
 $shkconf['noJavaScript'] = isset($noJavaScript) ? $noJavaScript : false;
 $shkconf['excepDigitGroup'] = isset($excepDigitGroup) ? $excepDigitGroup : true;
 $shkconf['docid'] = $modx->documentIdentifier ? $modx->documentIdentifier : 0;
+$shkconf['goToOrderFormPage'] = isset($goToOrderFormPage) ? $goToOrderFormPage : 1;
 
 require_once MODX_BASE_PATH."assets/snippets/shopkeeper/classes/class.shopkeeper.php";
 $shopCart = new Shopkeeper($modx, $shkconf);
@@ -123,6 +124,7 @@ if($cartType=="empty"){
   $orderFormPageUrl = $modx->makeUrl($shkconf['orderFormPage'], '', '', 'full');
   $purchaseArray = $_POST;
   $shopCart -> savePurchaseData($purchaseArray);
+  if ($goToOrderFormPage) $modx->sendRedirect($orderFormPageUrl,0,'REDIRECT_HEADER');
   $modx->sendRedirect($_SERVER['HTTP_REFERER'],0,'REDIRECT_HEADER');
 
 }elseif(isset($_GET['shk_action'])){
